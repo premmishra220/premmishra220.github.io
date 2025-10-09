@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prem Prakash Mishra | Portfolio</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <!-- ====== Styles (kept original + added light-mode support) ====== -->
+  <style>
+    /* ========== Original + Combined CSS ==========
+       I kept your original styles, hover effects, achievements CSS etc.
+       I only added a small set of variables and light-mode overrides for the toggle.
+    =================================================*/
+
+    /* Variables (default = your original dark theme) */
+    :root{
+      --bg: #000000;
+      --card: #111111;
+      --text: #e0e0e0;
+      --muted: #bfbfbf;
+      --primary: #0d6efd;
+      --accent: #00e6e6;
+    }
+
+    /* Light mode overrides applied when <body class="light"> */
+    body.light{
+      --bg: #f6f9ff;
+      --card: #ffffff;
+      --text: #111827;
+      --muted: #475569;
+      --primary: #0d6efd;
+      --accent: #0d6efd;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', 'Segoe UI', Arial, sans-serif}
+    body{
+      background-color:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+      transition: background .25s ease, color .25s ease;
+    }
+
+    /* ---------- Top navbar ---------- */
+    .navbar{background:rgba(0,0,0,0.65)}
+    .navbar .navbar-brand{font-weight:700;color:var(--text)}
+    .navbar .nav-link{color:var(--muted) !important}
+
+    /* ---------- Hero Section ---------- */
+    header#hero{
+      background-color: var(--bg);
+      color: var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      padding:80px 20px 120px;
+      text-align:center;
+    }
+    header#hero img{
+      border-radius:50%;
+      border:4px solid var(--primary);
+      width:160px;height:160px;object-fit:cover;margin-bottom:18px;
+      box-shadow:0 4px 15px rgba(255,255,255,0.08);
+      transition:transform .3s ease;
+    }
+    header#hero img:hover{transform:scale(1.06)}
+    header#hero h1{font-size:3rem;margin-bottom:8px;color:var(--text)}
+    header#hero p.lead{color:var(--muted);margin-bottom:18px}
+
+    /* ---------- Sections ---------- */
+    section{padding:60px 20px;background-color:var(--bg)}
+    section h2{font-size:2.2rem;margin-bottom:22px;color:var(--primary)}
+    section p, section li{font-size:1.05rem;color:var(--text);margin-bottom:14px}
+
+    /* ---------- Cards / Skills / Projects ---------- */
+    .card, .skills-card{
+      background-color:var(--card);
+      border-radius:12px;padding:18px;
+      box-shadow:0 4px 15px rgba(0,0,0,0.5);
+      transition:transform .3s ease,box-shadow .3s ease;
+      text-align:left;
+    }
+    .card:hover, .skills-card:hover{transform:translateY(-6px);box-shadow:0 10px 30px rgba(0,0,0,0.7)}
+    .card h5{color:var(--primary);margin-bottom:8px}
+    .skills-card{display:inline-block;margin:8px;padding:14px;text-align:center;font-weight:700;width:140px}
+
+    /* Projects layout */
+    .project-image{max-width:100%;border-radius:8px}
+    .project-row{margin-bottom:40px;align-items:center}
+
+    /* Certificates grid */
+    .cert-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center}
+    .cert-card{background:var(--card);padding:14px;border-radius:10px;text-align:center;min-width:200px}
+
+    /* Achievements (kept your better style) */
+    .achievements{background:linear-gradient(135deg,#000000 0%,#111111 100%);color:#fff;text-align:center;padding:60px 20px;border-radius:12px}
+    .achievement-cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px}
+    .achievement-card{background:rgba(255,255,255,0.04);border-radius:12px;padding:18px;width:260px}
+
+    /* Contact form */
+    #contact form{max-width:700px;margin:0 auto}
+    #contact input,#contact textarea{background:#0c0c0c;border:1px solid rgba(255,255,255,0.06);padding:12px;border-radius:8px;color:var(--text)}
+    #contact button{padding:12px;border-radius:8px}
+
+    /* Footer */
+    footer{background:rgba(0,0,0,0.6);color:var(--muted);padding:20px;text-align:center}
+
+    /* Responsive tweaks */
+    @media(max-width:900px){
+      .project-row .col-md-6{margin-bottom:18px}
+      header#hero{padding-top:120px;padding-bottom:90px}
+    }
+    @media(max-width:520px){
+      .skills-card{width:46%}
+      .navbar .nav-link{font-size:14px}
+    }
+
+    /* ---------- Toggle circle (top-right) ---------- */
+    .theme-toggle{position:fixed;top:18px;right:18px;z-index:1200;display:flex;align-items:center;gap:8px}
+    .theme-toggle input{display:none}
+    .toggle-label{width:52px;height:28px;background:#ccc;border-radius:999px;position:relative;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,0.25)}
+    .toggle-label::after{content:"";width:24px;height:24px;background:#fff;border-radius:50%;position:absolute;top:2px;left:2px;transition:all .28s cubic-bezier(.2,.9,.3,1)}
+    #darkModeToggle:checked + .toggle-label{background:#444}
+    #darkModeToggle:checked + .toggle-label::after{transform:translateX(24px);background:gold}
+
+    /* Light mode styling for inputs & small elements when body.light is present */
+    body.light header#hero{background:var(--card); color:var(--text)}
+    body.light .navbar{background:rgba(255,255,255,0.9)}
+    body.light .navbar .nav-link{color:var(--text) !important}
+    body.light #contact input,#contact textarea{background:#fff;border:1px solid rgba(0,0,0,0.06);color:var(--text)}
+    body.light .card, body.light .skills-card{background:var(--card); box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== Dark mode toggle (only new addition) ===== -->
+  <div class="theme-toggle" title="Toggle light / dark">
+    <input type="checkbox" id="darkModeToggle">
+    <label for="darkModeToggle" class="toggle-label"></label>
+  </div>
+
+  <!-- ===== Navbar (kept original) ===== -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Prem Mishra</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#work">Work</a></li>
+          <li class="nav-item"><a class="nav-link" href="#achievements">Achievements</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Hero (original content preserved) ===== -->
+  <header id="hero">
+    <img src="https://media.licdn.com/dms/image/v2/D4D03AQHZ5xkoEF3AIA/profile-displayphoto-crop_800_800/B4DZlEqUCbJMAI-/0/1757793568992?e=1762387200&v=beta&t=4R4CVGcjjy5gljW1FN4HkGPkOLiq1vLoCqXi_4h296I" alt="Prem Prakash Mishra">
+    <h1 class="animate__animated animate__fadeInDown">Prem Prakash Mishra</h1>
+    <p class="lead animate__animated animate__fadeInUp animate__delay-1s">MERN Stack Developer | AIML Enthusiast | Problem Solver</p>
+    <div class="mt-3 animate__animated animate__fadeInUp animate__delay-2s">
+      <a href="#projects" class="btn btn-primary btn-lg">View Projects</a>
+      <a href="#contact" class="btn btn-outline-light btn-lg">Contact Me</a>
+    </div>
+
+    <div class="mt-3 animate__animated animate__fadeInUp animate__delay-3s" style="margin-top:18px;">
+      <p>📍 Sinhgad Institute of Technology, Lonavla</p>
+      <p>📧 <a href="mailto:premmishrasonb@gmail.com" class="text-info">premmishrasonb@gmail.com</a></p>
+      <p>📞 <a href="tel:+9196931466943" class="text-info">+91-9693146943</a></p>
+      <p>🔗 <a href="https://www.linkedin.com/in/prem-prakash-mishra-20516a288" target="_blank" class="text-info">LinkedIn</a></p>
+    </div>
+  </header>
+
+  <!-- ===== About ===== -->
+  <section id="about" class="animate__animated animate__fadeInUp">
+    <div class="container">
+      <h2>About Me</h2>
+      <p>I am <strong>Prem Prakash Mishra</strong>, a passionate MERN Stack Developer and AIML enthusiast. Experienced in HTML, CSS, JavaScript, React, NodeJS, ExpressJS, MongoDB, and Machine Learning. I love building interactive, responsive, and scalable web applications that solve real-world problems.</p>
+      <p>Currently pursuing engineering at <strong>Sinhgad Institute of Technology, Lonavla</strong>. I have completed 5 certifications and continue to learn new technologies to enhance my skills.</p>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section id="skills" class="animate__animated animate__fadeInUp">
+    <div class="container text-center">
+      <h2>Skills</h2>
+      <div class="d-flex flex-wrap justify-content-center">
+        <div class="skills-card">HTML</div>
+        <div class="skills-card">CSS</div>
+        <div class="skills-card">JavaScript</div>
+        <div class="skills-card">React</div>
+        <div class="skills-card">NodeJS</div>
+        <div class="skills-card">ExpressJS</div>
+        <div class="skills-card">MongoDB</div>
+        <div class="skills-card">Machine Learning</div>
+        <div class="skills-card">MYSQL</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Certifications ===== -->
+  <section id="certifications" class="bg-dark text-center text-white">
+    <div class="container">
+      <h2>Certifications</h2>
+      <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+          <div class="card shadow p-3 animate__animated animate__flipInY">
+            <h5>Oracle Data Science Certificate</h5>
+            <a href="image/datascience.png" target="_blank" class="btn btn-primary mt-2">View / Download</a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card shadow p-3 animate__animated animate__flipInY" style="animation-delay:0.1s;">
+            <h5>HTML5 Certificate</h5>
+            <a href="image/html5.png" target="_blank" class="btn btn-primary mt-2">View / Download</a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card shadow p-3 animate__animated animate__flipInY" style="animation-delay:0.2s;">
+            <h5>Java Programming Certificate</h5>
+            <a href="image/java.png" target="_blank" class="btn btn-primary mt-2">View / Download</a>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card shadow p-3 animate__animated animate__flipInY" style="animation-delay:0.3s;">
+            <h5>JavaScript Certificate</h5>
+            <img src="https://media.licdn.com/dms/image/v2/D4D22AQGSb7MGoX9A1g/feedshare-shrink_2048_1536/B4DZkxAkKxGsAw-/0/1757463858640?e=1762992000&v=beta&t=tQeE2r0fDYE9Uu1sdJDstKNp0EE9b0zIk7JvRUqC4fs" alt="java pdf">
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="card shadow p-3 animate__animated animate__flipInY" style="animation-delay:0.4s;">
+            <h5>Certification 5</h5>
+            <a href="certificates/cert5.pdf" target="_blank" class="btn btn-primary mt-2">View / Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Projects ===== -->
+  <section id="projects" class="text-center">
+    <div class="container">
+      <h2>Projects</h2>
+
+      <!-- Project 1 -->
+      <div class="row project-row align-items-center mb-5">
+        <div class="col-md-6 animate__animated animate__zoomIn">
+          <img src="image/Screenshot 2025-10-07 023332.png" alt="Project 1" class="project-image">
+        </div>
+        <div class="col-md-6 animate__animated animate__fadeInRight">
+          <h5>Full-Stack Portfolio App</h5>
+          <p>React | NodeJS | Express | MongoDB | Bootstrap</p>
+          <p>Showcases frontend & backend integration, contact form, and responsive design.</p>
+          <a href="#" class="btn btn-primary mt-2">View Code</a>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="row project-row align-items-center mb-5">
+        <div class="col-md-6 order-md-2 animate__animated animate__zoomIn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSgRdA625t5rn_iAHPXTYaoi2PvR4pPZV0ugQ&s" alt="Project 2" class="project-image">
+        </div>
+        <div class="col-md-6 order-md-1 animate__animated animate__fadeInLeft">
+          <h5>E-Commerce Platform</h5>
+          <p>React | NodeJS | Express | MongoDB | Stripe API</p>
+          <p>Shopping cart, payment integration, admin dashboard for inventory management.</p>
+          <a href="#" class="btn btn-primary mt-2">View Code</a>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="row project-row align-items-center mb-5">
+        <div class="col-md-6 animate__animated animate__zoomIn">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIfxbU9XlDwsYsuhCsmmoW4ninPzaMCf3ybA&s" alt="Project 3" class="project-image">
+        </div>
+        <div class="col-md-6 animate__animated animate__fadeInRight">
+          <h5>Blog Website</h5>
+          <p>NodeJS | Express | MongoDB | EJS</p>
+          <p>Create, edit, delete blog posts, dynamic routes, responsive design.</p>
+          <a href="#" class="btn btn-primary mt-2">View Code</a>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="row project-row align-items-center mb-5">
+        <div class="col-md-6 order-md-2 animate__animated animate__zoomIn">
+          <img src="https://www.projectmanager.com/wp-content/uploads/2023/09/tab-customization-1.jpg" alt="Project 4" class="project-image">
+        </div>
+        <div class="col-md-6 order-md-1 animate__animated animate__fadeInLeft">
+          <h5>Portfolio Management System</h5>
+          <p>React | NodeJS | Express | MongoDB</p>
+          <p>Tracks projects, skills, and user feedback with interactive UI.</p>
+          <a href="#" class="btn btn-primary mt-2">View Code</a>
+        </div>
+      </div>
+
+      <!-- Project 5 -->
+      <div class="row project-row align-items-center mb-5">
+        <div class="col-md-6 animate__animated animate__zoomIn">
+          <img src="https://www.q3tech.com/wp-content/uploads/2024/01/AI-1-1.jpg" alt="Project 5" class="project-image">
+        </div>
+        <div class="col-md-6 animate__animated animate__fadeInRight">
+          <h5>AI/ML Mini Project</h5>
+          <p>Python | Machine Learning | NodeJS API</p>
+          <p>Predictive model integration with web interface, showcasing ML skills.</p>
+          <a href="#" class="btn btn-primary mt-2">View Code</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== Work / Internships ===== -->
+  <section id="work" class="bg-light text-center">
+    <div class="container">
+      <h2>Work Experience / Internships</h2>
+      <p>No official internships yet. Placeholder for future updates.</p>
+    </div>
+  </section>
+
+  <!-- ===== Achievements (kept original style) ===== -->
+  <section id="achievements" class="achievements">
+    <h2>Achievements & Certifications</h2>
+    <div class="achievement-cards">
+      <div class="achievement-card">
+        <h3>Hackathon Participant</h3>
+        <p>Participated in SIH (Smart India Hackathon) at National Level 2025.</p>
+      </div>
+      <div class="achievement-card">
+        <h3>Full Stack Certificate</h3>
+        <p>Completed Full Stack Web Development from Cohort.</p>
+      </div>
+      <div class="achievement-card">
+        <h3>Machine Learning</h3>
+        <p>Certified in Data Science fundamentals by Oracle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Contact (original form preserved) ===== -->
+  <section id="contact" class="bg-light text-center">
+    <div class="container">
+      <h2>Contact Me</h2>
+      <!-- This form posts to your backend route /api/contact -->
+      <form id="contactForm" action="/api/contact" method="POST" class="mx-auto" style="max-width:600px;">
+        <div class="mb-3"><input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required></div>
+        <div class="mb-3"><input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required></div>
+        <div class="mb-3"><textarea id="message" name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea></div>
+        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+      </form>
+      <div id="contactStatus" style="margin-top:12px;color:var(--muted)"></div>
+    </div>
+  </section>
+
+  <!-- ===== Footer (original preserved) ===== -->
+  <footer class="bg-dark text-white text-center py-4">
+    <p>&copy; 2025 Prem Prakash Mishra | <a href="https://www.linkedin.com/in/your-linkedin" target="_blank" class="text-white">LinkedIn</a></p>
+    <a href="#hero" class="btn btn-light btn-sm mt-2">Back to Top</a>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ===== JS: contact submission + dark-mode persistence (only additions) ===== -->
+  <script>
+    // Dark/Light toggle persistence
+    const toggle = document.getElementById("darkModeToggle");
+    const body = document.body;
+    // Initialize from localStorage
+    const savedTheme = localStorage.getItem("theme");
+    if(savedTheme === "light"){
+      body.classList.add("light");
+      toggle.checked = true; // checked means light in our mapping
+    } else {
+      // default keep original dark look (no class) and unchecked
+      toggle.checked = false;
+    }
+
+    // When user toggles:
+    toggle.addEventListener("change", () => {
+      if(toggle.checked){
+        // user chose LIGHT mode (to preserve original dark look default, checked = light)
+        body.classList.add("light");
+        localStorage.setItem("theme","light");
+      } else {
+        body.classList.remove("light");
+        localStorage.setItem("theme","dark");
+      }
+    });
+
+    // Contact form submit with fetch (keeps server POST behavior, plus status message)
+    const contactForm = document.getElementById("contactForm");
+    const statusBox = document.getElementById("contactStatus");
+
+    contactForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      statusBox.textContent = "Sending...";
+      const payload = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        message: document.getElementById("message").value.trim()
+      };
+      // if using form POST directly to server (non-AJAX) you can remove below fetch
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: {"Content-Type":"application/json"},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if(data.status === "success"){
+          statusBox.style.color = "#28a745";
+          statusBox.textContent = "Message sent successfully ✅";
+          contactForm.reset();
+        } else {
+          statusBox.style.color = "#ff6b6b";
+          statusBox.textContent = data.message || "Submission failed";
+        }
+      } catch(err){
+        // If fetch fails (e.g., endpoint not available), fall back to default form submit
+        console.error(err);
+        statusBox.style.color = "#ff6b6b";
+        statusBox.textContent = "Server unavailable — message not sent.";
+      }
+      setTimeout(()=> { statusBox.textContent = ""; }, 4000);
+    });
+  </script>
+</body>
+</html>
